@@ -7,10 +7,10 @@ opts = {}
 ''' general '''
 
 # name of experiment
-opts['exp_name'] = 'ACNN_v1'
+opts['exp_name'] = 'ResNet_v1'
 
 # train, test or both
-opts['run'] = 'test'
+opts['run'] = 'both'
 
 ''' data '''
 
@@ -40,7 +40,7 @@ opts['history_file'] = 'history.json'
 ''' model '''
 
 model = {}
-model['name'] = 'ACNN'
+model['name'] = 'ResNet'
 
 if model['name'] == 'ACNN':
     model['l2_weight'] = 0.0001
@@ -50,7 +50,10 @@ if model['name'] == 'ACNN':
     model['dropout_rate'] = 0.5
     model['fc'] = [2000, 500]
 elif model['name'] == 'ResNet':
-    pass
+    model['block_fn'] = 'basic_block'
+    model['repetitions'] = [2, 2, 2]
+    model['k_first'] = 5
+    model['nfeat'] = 16
 else:
     raise Exception('model name error')
     
@@ -58,7 +61,7 @@ opts['model'] = model
 
 ''' train '''
 
-opts['batch_size'] = 64
+opts['batch_size'] = 32 #64
 opts['early_stopping_patience'] = 20
 opts['epochs'] = 100
 
@@ -71,6 +74,13 @@ if optimizer['name'] == 'Adadelta':
     optimizer['epsilon'] = None
     optimizer['decay'] = 0.0
     optimizer['clipnorm'] = 1.
+elif optimizer['name'] == 'Adam':
+    optimizer['lr'] = 0.001,
+    optimizer['beta_1'] = 0.9,
+    optimizer['beta_2'] = 0.999,
+    optimizer['epsilon'] = None
+    optimizer['decay'] = 0.0
+    optimizer['amsgrad'] = False
 else:
     raise Exception('optimizer name error')
     

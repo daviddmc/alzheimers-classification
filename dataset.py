@@ -38,7 +38,7 @@ def load_dataset(opts):
     test_data = load_img(data_path, input_shape,'test')
     
     label_name = 'adni_demographic_master_kaggle.csv'
-    is_binary = opts['task'] == binary
+    is_binary = opts['task'] == 'binary'
     train_label = load_label(os.path.join(data_path, label_name), 0, is_binary)
     val_label = load_label(os.path.join(data_path, label_name), 1, is_binary)
     test_label = load_label(os.path.join(data_path, label_name), 2, is_binary)

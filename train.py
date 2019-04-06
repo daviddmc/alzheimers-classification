@@ -15,25 +15,6 @@ def save_model_history(m, history_file):
         json.dump(m.history, history_json_file)
     print('model history saved')
     
-def visualise_accuracy(m):
-    plt.plot(m.history['acc'])
-    plt.plot(m.history['val_acc'])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.show()
-    
-
-def visualise_loss(m):
-    plt.plot(m.history['loss'])
-    plt.plot(m.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.show()
-    
     
 def model_callbacks(epoch_weights_file, early_stopping_patience):
     checkpoint = ModelCheckpoint(epoch_weights_file, monitor='val_acc', verbose=1, save_best_only=True, mode='max')

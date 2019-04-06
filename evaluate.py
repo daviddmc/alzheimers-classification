@@ -1,38 +1,17 @@
-#import matplotlib.pyplot as plt
-#import sklearn
 from sklearn.metrics import classification_report, confusion_matrix
 import numpy as np
 import os 
 
-'''
-def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'):
-    plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
-    plt.title(title)
-    plt.colorbar()
-    tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
-    plt.yticks(tick_marks, classes)
-
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, cm[i, j],
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
-
-    plt.tight_layout()
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
-'''
 
 def evaluate_model(m, test_data, test_labels, opts):    
     # load trained weight
     m.load_weights(os.path.join(opts['output_path'], opts['exp_name'], opts['epoch_weights_file']))
     # predict     
     prediction = m.predict(test_data)
-    prediction_labels = np.argmax(prediction, axis=1)
+    if opts['task'] == 'binary':
+        prediction_labels = prediction > 0.5
+    else:
+        prediction_labels = np.argmax(prediction, axis=1)
     test_labels = np.squeeze(test_labels)
     prediction_labels = np.squeeze(prediction_labels)
     # calculate test acc

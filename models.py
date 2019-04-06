@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.layers import Input, Dense, Convolution1D, Convolution2D, MaxPooling2D, UpSampling2D, Reshape, Flatten, ZeroPadding2D, BatchNormalization, ReLU, Dropout, Activation, Convolution3D, MaxPooling3D, Input
 from tensorflow.keras.models import Model, Sequential
+from resnet import ResnetBuilder
 
 def ACNN(x, nfeat, nfeat_fac, depth, fc, dropout_rate, l2_weight, **kwarg):
     
@@ -18,6 +19,10 @@ def ACNN(x, nfeat, nfeat_fac, depth, fc, dropout_rate, l2_weight, **kwarg):
         
     return x
 
+
+def ResNet(x, **kwarg):
+    return ResnetBuilder.build(x, **kwarg)
+    
 
 def build_cnn(opts):
     print('build CNN')
